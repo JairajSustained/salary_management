@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(gunzip -c \"/Users/jairajsahgal/.claude/projects/-Users-jairajsahgal-Documents-projects-salary-management-frontend/e6244217-705f-4202-acb0-24519725ceff/tool-results/webfetch-1779173369928-cltxjb.bin\")"
+    ]
+  }
+}

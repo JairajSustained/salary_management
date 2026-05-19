@@ -1,0 +1,65 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.python-version
+.env
+venv/
+ENV/
+env/
+venv.bak/
+*.env
+*.local
+db.sqlite3
+media/
+staticfiles/
+*.log
+*.pot
+*.pyc
+
+# Django specific
+*.sqlite3
+*.py[cod]
+*/migrations/*.pyc
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Node / React
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+.pnpm-debug.log
+.next/
+.build/
+coverage/
+public/static/
+.DS_Store
+npm-debug.log*
+*.log
+
+# React build output
+build/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# macOS
+.DS_Store
+
+# Misc
+*.swp
+*.swo
+*.DS_Store
