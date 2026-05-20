@@ -145,14 +145,16 @@ export function EmployeeTable({ onAdd }: { onAdd: () => void }) {
 										})}
 									</TableCell>
 									<TableCell onClick={(e) => e.stopPropagation()}>
-										<Button
-											variant="ghost"
-											size="sm"
-											className="text-red-500 hover:bg-red-50 hover:text-red-600"
-											onClick={() => setDeleteTarget(emp)}
-										>
-											Deactivate
-										</Button>
+										{emp.employment_status === "Active" && (
+											<Button
+												variant="ghost"
+												size="sm"
+												className="text-red-500 hover:bg-red-50 hover:text-red-600"
+												onClick={() => setDeleteTarget(emp)}
+											>
+												Deactivate
+											</Button>
+										)}
 									</TableCell>
 								</TableRow>
 							))
