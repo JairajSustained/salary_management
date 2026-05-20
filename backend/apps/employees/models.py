@@ -8,6 +8,10 @@ class EmploymentStatus(models.TextChoices):
 
 
 class Employee(models.Model):
+    """
+    Represents an employee in the organization.
+    Used by HR Managers to manage employee data and salary insights.
+    """
     id = models.UUIDField(primary_key=True, default=uuid.uuid7, editable=False)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)

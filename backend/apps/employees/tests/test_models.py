@@ -3,6 +3,7 @@ import uuid
 
 @pytest.mark.django_db
 class TestEmployeeModel:
+	"""Tests for Employee model creation and field validation."""
 	def test_employee_can_be_created(self, employee):
 		assert employee.id is not None
 
