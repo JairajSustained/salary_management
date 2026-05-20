@@ -9,15 +9,19 @@ from .serializers import EmployeeSerializer
 
 
 class EmployeeViewSet(ModelViewSet):
+	"""CRUD operations for Employee records, plus salary insights by country, department, and job title."""
+
 	queryset = Employee.objects.all().order_by("date_of_joining")
 	serializer_class = EmployeeSerializer
 
 	def perform_destroy(self, instance):
+		"""Soft-delete: marks the employee Inactive instead of removing the row."""
 		instance.employment_status = EmploymentStatus.INACTIVE
 		instance.save()
 
 	@action(detail=False, methods=["get"])
 	def insights(self, request):
+		"""Return min/max/avg/median salary grouped by country, department, and job title."""
 		qs = Employee.objects.filter(employment_status=EmploymentStatus.ACTIVE)
 
 		def salary_stats(group_field):
