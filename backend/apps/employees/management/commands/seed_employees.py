@@ -1,5 +1,6 @@
 import datetime
 import random
+from django.db import transaction
 from pathlib import Path
 
 from django.core.management.base import BaseCommand
@@ -51,6 +52,6 @@ class Command(BaseCommand):
 			)
 			for i in range(_COUNT)
 		]
-
-		Employee.objects.bulk_create(employees, batch_size=_BATCH_SIZE)
+		with transaction.atomic():
+			Employee.objects.bulk_create(employees, batch_size=_BATCH_SIZE, ignore_conflicts=True)
 		self.stdout.write(self.style.SUCCESS("Successfully seeded 10,000 employees."))
