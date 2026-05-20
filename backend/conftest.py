@@ -15,7 +15,7 @@ def employee_data():
 		"country": "India",
 		"salary": 50000.00,
 		"employment_status": "Active",
-		"date_of_joining": datetime.datetime.now(),
+		"date_of_joining": datetime.date.today(),
 	}
 
 

@@ -1,0 +1,28 @@
+meta {
+  name: Update Employee
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/api/employees/{{employeeId}}/
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "first_name": "John",
+    "last_name": "Doe",
+    "job_title": "Senior Software Engineer",
+    "department": "Engineering",
+    "country": "USA",
+    "salary": "95000.00",
+    "date_of_joining": "2024-01-15",
+    "employment_status": "Active"
+  }
+}

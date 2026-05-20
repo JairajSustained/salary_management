@@ -49,10 +49,17 @@ PROJECT_APPS = [
 	"apps.employees",
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+	"rest_framework",
+]
 
 
 INSTALLED_APPS = PROJECT_APPS + DJANGO_APPS + THIRD_PARTY_APPS
+
+REST_FRAMEWORK = {
+	"DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+	"PAGE_SIZE": 10,
+}
 
 MIDDLEWARE = [
 	"django.middleware.security.SecurityMiddleware",

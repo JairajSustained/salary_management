@@ -1,0 +1,21 @@
+meta {
+  name: Partial Update Employee
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/employees/{{employeeId}}/
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "salary": "90000.00"
+  }
+}
