@@ -1,0 +1,28 @@
+meta {
+  name: Create Employee
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/employees/
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "first_name": "John",
+    "last_name": "Doe",
+    "job_title": "Software Engineer",
+    "department": "Engineering",
+    "country": "USA",
+    "salary": "80000.00",
+    "date_of_joining": "2024-01-15",
+    "employment_status": "Active"
+  }
+}

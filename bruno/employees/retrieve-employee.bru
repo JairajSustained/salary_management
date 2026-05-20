@@ -1,0 +1,11 @@
+meta {
+  name: Retrieve Employee
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/employees/{{employeeId}}/
+  body: none
+  auth: none
+}

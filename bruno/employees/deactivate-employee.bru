@@ -1,0 +1,11 @@
+meta {
+  name: Deactivate Employee
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{baseUrl}}/api/employees/{{employeeId}}/
+  body: none
+  auth: none
+}
