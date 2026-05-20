@@ -1,10 +1,13 @@
 import pytest
-
+import uuid
 
 @pytest.mark.django_db
 class TestEmployeeModel:
 	def test_employee_can_be_created(self, employee):
 		assert employee.id is not None
+
+	def test_employee_id_is_uuid(self,employee):
+		assert isinstance(employee.id, uuid.UUID)
 
 	def test_employee_full_name(self, employee):
 		assert employee.first_name == "John"
