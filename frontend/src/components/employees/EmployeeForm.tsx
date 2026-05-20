@@ -18,6 +18,7 @@ interface Props {
 	defaultValues?: Employee;
 	onSubmit: (data: EmployeeFormData) => Promise<void>;
 	isSubmitting: boolean;
+	fieldErrors?: Record<string, string[]>;
 }
 
 const DEPARTMENTS = [
@@ -32,13 +33,14 @@ const COUNTRIES = [
 	"Poland", "Mexico", "Italy", "South Korea", "Switzerland", "UAE", "Portugal",
 ];
 
-export function EmployeeForm({ defaultValues, onSubmit, isSubmitting }: Props) {
+export function EmployeeForm({ defaultValues, onSubmit, isSubmitting, fieldErrors }: Props) {
 	const {
 		register,
 		handleSubmit,
 		setValue,
 		watch,
 		reset,
+		setError,
 		formState: { errors },
 	} = useForm<EmployeeFormData>({
 		defaultValues: defaultValues
@@ -67,6 +69,13 @@ export function EmployeeForm({ defaultValues, onSubmit, isSubmitting }: Props) {
 			employment_status: defaultValues.employment_status,
 		});
 	}, [defaultValues, reset]);
+
+	useEffect(() => {
+		if (!fieldErrors) return;
+		(Object.entries(fieldErrors) as [keyof EmployeeFormData, string[]][]).forEach(
+			([field, messages]) => setError(field, { message: messages[0] })
+		);
+	}, [fieldErrors, setError]);
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -111,7 +120,7 @@ export function EmployeeForm({ defaultValues, onSubmit, isSubmitting }: Props) {
 				<div className="space-y-1.5">
 					<Label>Department</Label>
 					<Select
-						value={watch("department")}
+						value={watch("department") ?? ""}
 						onValueChange={(v) => setValue("department", v as string)}
 					>
 						<SelectTrigger>
@@ -127,7 +136,7 @@ export function EmployeeForm({ defaultValues, onSubmit, isSubmitting }: Props) {
 				<div className="space-y-1.5">
 					<Label>Country</Label>
 					<Select
-						value={watch("country")}
+						value={watch("country") ?? ""}
 						onValueChange={(v) => setValue("country", v as string)}
 					>
 						<SelectTrigger>
@@ -171,7 +180,7 @@ export function EmployeeForm({ defaultValues, onSubmit, isSubmitting }: Props) {
 			<div className="space-y-1.5">
 				<Label>Status</Label>
 				<Select
-					value={watch("employment_status")}
+					value={watch("employment_status") ?? ""}
 					onValueChange={(v) => setValue("employment_status", v as "Active" | "Inactive")}
 				>
 					<SelectTrigger>

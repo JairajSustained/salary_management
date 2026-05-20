@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { isAxiosError } from "axios";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -22,14 +23,28 @@ interface Props {
 
 export function DeleteDialog({ employee, onClose, onSuccess }: Props) {
 	const [isDeleting, setIsDeleting] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 
 	const handleDelete = async () => {
 		if (!employee) return;
 		setIsDeleting(true);
+		setError(null);
 		try {
 			await employeesApi.delete(employee.id);
 			onSuccess();
 			onClose();
+		} catch (err) {
+			if (isAxiosError(err) && err.response?.data) {
+				const data = err.response.data as Record<string, string | string[]>;
+				const detail = data["detail"] ?? data["non_field_errors"];
+				if (detail) {
+					setError(Array.isArray(detail) ? detail.join(" ") : detail);
+				} else {
+					setError("Failed to deactivate employee. Please try again.");
+				}
+			} else {
+				setError("Something went wrong. Please try again.");
+			}
 		} finally {
 			setIsDeleting(false);
 		}
@@ -45,6 +60,9 @@ export function DeleteDialog({ employee, onClose, onSuccess }: Props) {
 						This can be undone by editing their record.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
+				{error && (
+					<p className="rounded bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
+				)}
 				<AlertDialogFooter>
 					<AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
 					<AlertDialogAction

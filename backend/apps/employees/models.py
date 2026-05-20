@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 import uuid
 
@@ -18,7 +19,12 @@ class Employee(models.Model):
     job_title = models.CharField(max_length=100)
     department = models.CharField(max_length=100, help_text="Department of the employee")
     country = models.CharField(max_length=100, help_text="Country of the employee")
-    salary = models.DecimalField(max_digits=10, decimal_places=2, help_text="Salary of the employee in USD")
+    salary = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(1)],
+        help_text="Salary of the employee in USD",
+    )
     date_of_joining = models.DateField(help_text="Date of joining of the employe")
     employment_status = models.CharField(
         max_length=20,

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { isAxiosError } from "axios";
 import {
 	Dialog,
 	DialogContent,
@@ -20,11 +21,13 @@ interface Props {
 
 export function EmployeeModal({ open, onClose, employee, onSuccess }: Props) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [genericError, setGenericError] = useState<string | null>(null);
+	const [fieldErrors, setFieldErrors] = useState<Record<string, string[]> | undefined>();
 
 	const handleSubmit = async (data: EmployeeFormData) => {
 		setIsSubmitting(true);
-		setError(null);
+		setGenericError(null);
+		setFieldErrors(undefined);
 		try {
 			if (employee) {
 				await employeesApi.update(employee.id, data);
@@ -33,8 +36,24 @@ export function EmployeeModal({ open, onClose, employee, onSuccess }: Props) {
 			}
 			onSuccess();
 			onClose();
-		} catch {
-			setError("Something went wrong. Please try again.");
+		} catch (err) {
+			if (isAxiosError(err) && err.response?.data) {
+				const data = err.response.data as Record<string, string | string[]>;
+				// Separate field errors from non-field errors (e.g. "non_field_errors", "detail")
+				const fieldErrs: Record<string, string[]> = {};
+				const topLevelMessages: string[] = [];
+				for (const [key, val] of Object.entries(data)) {
+					if (key === "non_field_errors" || key === "detail") {
+						topLevelMessages.push(Array.isArray(val) ? val.join(" ") : val);
+					} else {
+						fieldErrs[key] = Array.isArray(val) ? val : [val];
+					}
+				}
+				if (Object.keys(fieldErrs).length) setFieldErrors(fieldErrs);
+				if (topLevelMessages.length) setGenericError(topLevelMessages.join(" "));
+			} else {
+				setGenericError("Something went wrong. Please try again.");
+			}
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -48,15 +67,16 @@ export function EmployeeModal({ open, onClose, employee, onSuccess }: Props) {
 						{employee ? "Edit Employee" : "Add Employee"}
 					</DialogTitle>
 				</DialogHeader>
-				{error && (
+				{genericError && (
 					<p className="rounded bg-red-50 px-3 py-2 text-sm text-red-600">
-						{error}
+						{genericError}
 					</p>
 				)}
 				<EmployeeForm
 					defaultValues={employee}
 					onSubmit={handleSubmit}
 					isSubmitting={isSubmitting}
+					fieldErrors={fieldErrors}
 				/>
 			</DialogContent>
 		</Dialog>
