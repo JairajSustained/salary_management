@@ -14,8 +14,8 @@ def employee_data():
 		"department": "Engineering",
 		"country": "India",
 		"salary": 50000.00,
-		"status": "Active",
-		"doj": datetime.datetime.now(),
+		"employment_status": "Active",
+		"date_of_joining": datetime.datetime.now(),
 	}
 
 

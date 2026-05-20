@@ -18,4 +18,4 @@ class TestEmployeeModel:
 		assert employee.employment_status == "Active"
 
 	def test_employee_salary_is_stored_correctly(self, employee):
-		assert employee.salary == 5 * 10**5
+		assert employee.salary == 50000.00
