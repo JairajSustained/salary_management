@@ -47,3 +47,23 @@ class Employee(models.Model):
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class EmployeeAudit(models.Model):
+    """
+    Audit model for employee salary changes.
+    """
+    employee = models.ForeignKey(to=Employee, on_delete=models.PROTECT, related_name="audits")
+    old_salary = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(1)],
+        help_text="Old Salary of the employee in USD",
+    )
+    new_salary = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(1)],
+        help_text="New Salary of the employee in USD",
+    )
+    note = models.TextField(blank=True, null=True, help_text="Note for the audit")
