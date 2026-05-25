@@ -5,29 +5,51 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Employee',
+            name="Employee",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid7, editable=False, primary_key=True, serialize=False)),
-                ('first_name', models.CharField(max_length=100)),
-                ('last_name', models.CharField(max_length=100)),
-                ('job_title', models.CharField(max_length=100)),
-                ('department', models.CharField(max_length=100)),
-                ('country', models.CharField(max_length=100)),
-                ('salary', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('date_of_joining', models.DateField()),
-                ('employment_status', models.CharField(choices=[('Active', 'Active'), ('Inactive', 'Inactive')], default='Active', max_length=20)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid7,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("first_name", models.CharField(max_length=100)),
+                ("last_name", models.CharField(max_length=100)),
+                ("job_title", models.CharField(max_length=100)),
+                ("department", models.CharField(max_length=100)),
+                ("country", models.CharField(max_length=100)),
+                ("salary", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("date_of_joining", models.DateField()),
+                (
+                    "employment_status",
+                    models.CharField(
+                        choices=[("Active", "Active"), ("Inactive", "Inactive")],
+                        default="Active",
+                        max_length=20,
+                    ),
+                ),
             ],
             options={
-                'db_table': 'employees',
-                'indexes': [models.Index(fields=['first_name', 'last_name'], name='idx_employee_name'), models.Index(fields=['job_title'], name='idx_employee_job_title'), models.Index(fields=['country', 'job_title'], name='idx_employee_country_job_title')],
+                "db_table": "employees",
+                "indexes": [
+                    models.Index(
+                        fields=["first_name", "last_name"], name="idx_employee_name"
+                    ),
+                    models.Index(fields=["job_title"], name="idx_employee_job_title"),
+                    models.Index(
+                        fields=["country", "job_title"],
+                        name="idx_employee_country_job_title",
+                    ),
+                ],
             },
         ),
     ]

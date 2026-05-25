@@ -5,35 +5,46 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('employees', '0001_initial'),
+        ("employees", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='employee',
-            name='country',
-            field=models.CharField(help_text='Country of the employee', max_length=100),
+            model_name="employee",
+            name="country",
+            field=models.CharField(help_text="Country of the employee", max_length=100),
         ),
         migrations.AlterField(
-            model_name='employee',
-            name='date_of_joining',
-            field=models.DateField(help_text='Date of joining of the employe'),
+            model_name="employee",
+            name="date_of_joining",
+            field=models.DateField(help_text="Date of joining of the employe"),
         ),
         migrations.AlterField(
-            model_name='employee',
-            name='department',
-            field=models.CharField(help_text='Department of the employee', max_length=100),
+            model_name="employee",
+            name="department",
+            field=models.CharField(
+                help_text="Department of the employee", max_length=100
+            ),
         ),
         migrations.AlterField(
-            model_name='employee',
-            name='employment_status',
-            field=models.CharField(choices=[('Active', 'Active'), ('Inactive', 'Inactive')], default='Active', help_text='Employment status of the employee', max_length=20),
+            model_name="employee",
+            name="employment_status",
+            field=models.CharField(
+                choices=[("Active", "Active"), ("Inactive", "Inactive")],
+                default="Active",
+                help_text="Employment status of the employee",
+                max_length=20,
+            ),
         ),
         migrations.AlterField(
-            model_name='employee',
-            name='salary',
-            field=models.DecimalField(decimal_places=2, help_text='Salary of the employee in USD', max_digits=10, validators=[django.core.validators.MinValueValidator(1)]),
+            model_name="employee",
+            name="salary",
+            field=models.DecimalField(
+                decimal_places=2,
+                help_text="Salary of the employee in USD",
+                max_digits=10,
+                validators=[django.core.validators.MinValueValidator(1)],
+            ),
         ),
     ]

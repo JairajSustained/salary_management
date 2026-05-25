@@ -13,11 +13,14 @@ class Employee(models.Model):
     Represents an employee in the organization.
     Used by HR Managers to manage employee data and salary insights.
     """
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid7, editable=False)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     job_title = models.CharField(max_length=100)
-    department = models.CharField(max_length=100, help_text="Department of the employee")
+    department = models.CharField(
+        max_length=100, help_text="Department of the employee"
+    )
     country = models.CharField(max_length=100, help_text="Country of the employee")
     salary = models.DecimalField(
         max_digits=10,
@@ -38,7 +41,9 @@ class Employee(models.Model):
         indexes = [
             models.Index(fields=["first_name", "last_name"], name="idx_employee_name"),
             models.Index(fields=["job_title"], name="idx_employee_job_title"),
-            models.Index(fields=["country", "job_title"], name="idx_employee_country_job_title"),
+            models.Index(
+                fields=["country", "job_title"], name="idx_employee_country_job_title"
+            ),
         ]
 
     def __str__(self):
@@ -53,7 +58,10 @@ class EmployeeAudit(models.Model):
     """
     Audit model for employee salary changes.
     """
-    employee = models.ForeignKey(to=Employee, on_delete=models.PROTECT, related_name="audits")
+
+    employee = models.ForeignKey(
+        to=Employee, on_delete=models.PROTECT, related_name="audits"
+    )
     old_salary = models.DecimalField(
         max_digits=10,
         decimal_places=2,
