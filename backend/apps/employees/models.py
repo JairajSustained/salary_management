@@ -1,6 +1,8 @@
+import uuid
+
 from django.core.validators import MinValueValidator
 from django.db import models
-import uuid
+from django.utils import timezone
 
 
 class EmploymentStatus(models.TextChoices):
@@ -47,3 +49,17 @@ class Employee(models.Model):
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class RateLimitCounter(models.Model):
+    """DB backup for the file-based rate limit cache. Restored on cache miss."""
+
+    key = models.CharField(max_length=255, unique=True)
+    count = models.PositiveIntegerField(default=0)
+    window_start = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = "rate_limit_counters"
+
+    def __str__(self):
+        return f"{self.key}: {self.count} (since {self.window_start})"
