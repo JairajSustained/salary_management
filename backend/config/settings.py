@@ -75,6 +75,7 @@ MIDDLEWARE = [
 	"django.contrib.auth.middleware.AuthenticationMiddleware",
 	"django.contrib.messages.middleware.MessageMiddleware",
 	"django.middleware.clickjacking.XFrameOptionsMiddleware",
+	"apps.employees.middleware.EmployeeListRateLimitMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -147,3 +148,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
+
+CACHES = {
+	"default": {
+		"BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+		"LOCATION": BASE_DIR / "cache",
+	}
+}
+
+RATE_LIMIT = int(os.environ.get("RATE_LIMIT", 100))
+RATE_LIMIT_WINDOW = int(os.environ.get("RATE_LIMIT_WINDOW", 60))
